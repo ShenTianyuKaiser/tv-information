@@ -1,6 +1,8 @@
 # TV Information
 
 This is a website of TV Information.
+This is for you my interviewer. I truly didn't have much time to work on this project, so I focused on some key aspects and couldn't fully implement some requirements. I hope you understand. 
+Thank you.
 
 ## Getting Started
 
