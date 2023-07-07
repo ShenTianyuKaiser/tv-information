@@ -3,6 +3,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
 import { BrowserRouter } from "react-router-dom";
 import { ApplicationRoutes } from "./router/router";
+import { StyleProvider } from '@ant-design/cssinjs';
+import 'antd/dist/reset.css';
 
 function App() {
   const queryClient = new QueryClient();
@@ -12,7 +14,9 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <RecoilRoot>
             <BrowserRouter>
-              <ApplicationRoutes />
+              <StyleProvider hashPriority="high">
+                <ApplicationRoutes />
+              </StyleProvider>
             </BrowserRouter>
           </RecoilRoot>
         </QueryClientProvider>
