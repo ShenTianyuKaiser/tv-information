@@ -1,22 +1,38 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useListShows } from "../../hooks/useShow";
 import { Pagination, Spin } from "antd";
 import {Link} from "react-router-dom";
 import { HeartIcon } from '@heroicons/react/24/outline';
+import {ShowCard} from "./components/show-card";
+import {ShowInfo} from "../../types";
 
 const PAGE_SIZE = 10;
 
 export const Home = () => {
   const [query, setQuery] = useState<string>('');
   const [page, setPage] = useState<number>(1);
-  const {data, isInitialLoading} = useListShows();
+  const {data, isInitialLoading, isError} = useListShows();
   const showList = (data?.data || []).filter((item: any) => (item?.name).toLowerCase().includes(query.toLowerCase()));
+
+  useEffect(() => {
+    setPage(1);
+  }, [query]);
+
+  if (isError) {
+    return (
+      <div className='flex h-full w-full flex-col p-6'>
+        <div className='text-3xl text-blue-600 font-semibold '>TV Information List</div>
+        <div className='text-xl text-red-600 font-semibold '>Error occurred while loading data</div>
+      </div>
+    );
+  }
 
   return (
     <Spin spinning={isInitialLoading}>
       <div className='flex h-full w-full flex-col p-6'>
         {/*title*/}
         <div className='text-3xl text-blue-600 font-semibold '>TV Information List</div>
+
         {/*search*/}
         <div className='flex w-full justify-between items-center mt-4'>
           <input
@@ -26,34 +42,13 @@ export const Home = () => {
             onChange={(e) => setQuery(e.target.value)}
           />
         </div>
+
         {/*list*/}
           {showList
             .slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
-            .map((item: any, index: number) => {
+            .map((item: ShowInfo, index: number) => {
             return (
-              <Link to={`showDetails/${item.id}`} >
-                <div key={index} className='flex flex-col w-full bg-white shadow-md rounded-md p-4 mt-4 gap-4 cursor-pointer'>
-                  <div className='flex items-center gap-5'>
-                    <div className='text-xl font-semibold text-blue-900'>{item?.name}</div>
-                    <div className='flex items-center gap-2 text-sm font-semibold text-blue-600'>
-                      <HeartIcon className='h-4 w-4' />
-                      {item?.rating.average || 'N/A'}
-                    </div>
-                  </div>
-                  <div className='flex w-full gap-6'>
-                      <img className='w-[100px]' src={item.image.medium || ''} alt='' />
-                      <div
-                        className='text-sm text-blue-300'
-                        dangerouslySetInnerHTML={{ __html: item.summary }}
-                      />
-                  </div>
-                  <div className='flex w-full gap-10 text-blue-600'>
-                      <div className='text-sm font-semibold'>{item.language}</div>
-                      <div className='text-sm font-semibold'>{item.premiered}</div>
-                      <div className='text-sm font-semibold'>{item.genres.join(', ')}</div>
-                  </div>
-                </div>
-              </Link>
+              <ShowCard key={index} show={item} />
             );
           }
         )}
