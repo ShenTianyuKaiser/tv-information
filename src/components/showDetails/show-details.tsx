@@ -1,10 +1,12 @@
 import React from "react";
 import { useGetShow, useGetShowCast } from "../../hooks/useShow";
 import { Spin } from "antd";
+import { useScroll } from "ahooks";
 import { useParams } from "react-router-dom";
 import { ChevronDoubleLeftIcon } from '@heroicons/react/24/outline';
 import { ShowDetailBasic } from "./components/show-detail-basic";
 import { ShowDetailCastList } from "./components/show-detail-cast-list";
+import { BackToTopButton } from "../backToTop/back-to-top-button";
 
 export const ShowDetails = () => {
   const { detailId } = useParams();
@@ -12,6 +14,8 @@ export const ShowDetails = () => {
   const { data: showCastData, isInitialLoading: isCastLoading, isError: isCastError } = useGetShowCast({detailId});
   const show = showData?.data;
   const showCast = showCastData?.data;
+  const scroll = useScroll(document);
+  const top = scroll?.top || 0;
 
   if (isShowError || isCastError) {
     return (
@@ -25,7 +29,7 @@ export const ShowDetails = () => {
 
   return (
     <Spin spinning={isShowLoading || isCastLoading}>
-      {show && <div className='flex h-full w-full flex-col p-6 gap-5'>
+      {show ? <div className='flex h-full w-full flex-col p-6 gap-5'>
           {/*back button*/}
           <BackButton />
 
@@ -34,7 +38,12 @@ export const ShowDetails = () => {
 
           {/*show cast*/}
           <ShowDetailCastList showCastList={showCast} />
+
+          {/*scroll to top*/}
+          {top > 100 && <BackToTopButton />}
         </div>
+        :
+        <div className='h-full w-full'></div>
       }
     </Spin>
   );

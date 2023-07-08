@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import { useListShows } from "../../hooks/useShow";
 import { Pagination, Spin } from "antd";
-import {Link} from "react-router-dom";
-import { HeartIcon } from '@heroicons/react/24/outline';
-import {ShowCard} from "./components/show-card";
-import {ShowInfo} from "../../types";
+import { useScroll } from "ahooks";
+import { ShowCard } from "./components/show-card";
+import { ShowInfo } from "../../types";
+import { BackToTopButton } from "../backToTop/back-to-top-button";
 
 const PAGE_SIZE = 10;
 
@@ -13,6 +13,8 @@ export const Home = () => {
   const [page, setPage] = useState<number>(1);
   const {data, isInitialLoading, isError} = useListShows();
   const showList = (data?.data || []).filter((item: any) => (item?.name).toLowerCase().includes(query.toLowerCase()));
+  const scroll = useScroll(document);
+  const top = scroll?.top || 0;
 
   useEffect(() => {
     setPage(1);
@@ -64,6 +66,9 @@ export const Home = () => {
             setPage(page);
           }} />
         </div>
+
+        {/*scroll to top*/}
+        {top > 100 && <BackToTopButton />}
       </div>
     </Spin>
   );

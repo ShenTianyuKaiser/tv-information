@@ -1,5 +1,5 @@
 import { ShowInfo } from "../../../types";
-import { HeartIcon } from "@heroicons/react/24/outline";
+import { HeartIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
 interface ShowCardProps {
@@ -8,6 +8,7 @@ interface ShowCardProps {
 
 export const ShowCard = (props: ShowCardProps) => {
   const { show } = props;
+  const image = show?.image?.medium || ''
 
   return (
     <Link to={`showDetails/${show.id}`} >
@@ -16,11 +17,11 @@ export const ShowCard = (props: ShowCardProps) => {
           <div className='text-xl font-semibold text-blue-900'>{show.name}</div>
           <div className='flex items-center gap-2 text-sm font-semibold text-blue-600'>
             <HeartIcon className='h-4 w-4' />
-            {show.rating.average || 'N/A'}
+            {show?.rating?.average || 'N/A'}
           </div>
         </div>
         <div className='flex w-full gap-6'>
-          <img className='w-[100px]' src={show.image.medium || ''} alt='' />
+          {image ? <img className='w-[100px]' src={image} alt='' /> : <PhotoIcon className='w-[100px] text-blue-900' />}
           <div
             className='text-sm text-blue-300'
             dangerouslySetInnerHTML={{ __html: show.summary }}
