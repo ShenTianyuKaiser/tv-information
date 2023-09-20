@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ApplicationRoutes } from "./router/router";
 import { StyleProvider } from '@ant-design/cssinjs';
 import 'antd/dist/reset.css';
+import {FloatPanel} from "./float-panel";
 
 function App() {
   const queryClient = new QueryClient();
@@ -16,6 +17,7 @@ function App() {
             <BrowserRouter>
               <StyleProvider hashPriority="high">
                 <ApplicationRoutes />
+                <FloatPanel />
               </StyleProvider>
             </BrowserRouter>
           </RecoilRoot>

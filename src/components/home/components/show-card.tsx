@@ -1,6 +1,9 @@
 import { ShowInfo } from "../../../types";
 import { HeartIcon, PhotoIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
+import { useAtom } from "jotai";
+import { favoritesAtom } from "../../../atoms/favorites";
 
 interface ShowCardProps {
   show: ShowInfo;
@@ -8,15 +11,25 @@ interface ShowCardProps {
 
 export const ShowCard = (props: ShowCardProps) => {
   const { show } = props;
-  const image = show?.image?.medium || ''
+  const image = show?.image?.medium || '';
+  const [favorites, setFavorites] = useAtom(favoritesAtom);
+  const isFavorite = favorites.includes(show.id);
 
   return (
     <Link to={`showDetails/${show.id}`} >
       <div className='flex flex-col w-full bg-white shadow-md rounded-md p-4 mt-4 gap-4 cursor-pointer'>
         <div className='flex items-center gap-5'>
           <div className='text-xl font-semibold text-blue-900'>{show.name}</div>
-          <div className='flex items-center gap-2 text-sm font-semibold text-blue-600'>
-            <HeartIcon className='h-4 w-4' />
+          <div className='flex items-center gap-2 text-sm font-semibold text-blue-600'
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              setFavorites((favorites)=>{
+                return favorites.includes(show.id) ? favorites.filter((id) => id !== show.id) : [...favorites, show.id];
+              })
+              console.log("change favorites counts");
+            }}>
+            {isFavorite ? <HeartIconSolid className='h-4 w-4' /> : <HeartIcon className='h-4 w-4' />}
             {show?.rating?.average || 'N/A'}
           </div>
         </div>
