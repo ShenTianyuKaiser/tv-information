@@ -1,0 +1,28 @@
+import { atom, selector } from 'recoil';
+
+export const favoritesAtomRecoil = atom<string[]>({
+  key: 'favoritesAtom',
+  default: [],
+  effects: [
+    ({onSet})=>{
+      onSet((newValue, oldValue)=>{
+        alert(` [Recoil atom effects] \n Favorites updated! \n Old value is ${JSON.stringify(oldValue)}, new value is ${JSON.stringify(newValue)}`);
+        localStorage.setItem('favorites', JSON.stringify(newValue));
+      });
+    },
+    ({onSet})=>{
+      onSet((newValue)=>{
+        localStorage.setItem('favorites', JSON.stringify(newValue));
+      });
+    }
+  ],
+});
+
+export const favoritesSelector = selector({
+  key: 'favoritesSelector',
+  get: ({get})=>{
+    const favorites = get(favoritesAtomRecoil);
+    const length = favorites.length;
+    return length < 1 ? '' : `截止目前，您已经收藏了${length}个节目，它们的Id分别是：${favorites.join(', ')}`
+  }
+});

@@ -5,6 +5,8 @@ import { useScroll } from "ahooks";
 import { ShowCard } from "./components/show-card";
 import { ShowInfo } from "../../types";
 import { BackToTopButton } from "../backToTop/back-to-top-button";
+import {useRecoilValue} from "recoil";
+import {favoritesSelector} from "../../atoms/favorites-recoil";
 
 const PAGE_SIZE = 10;
 
@@ -15,6 +17,7 @@ export const Home = () => {
   const showList = (data?.data || []).filter((item: any) => (item?.name).toLowerCase().includes(query.toLowerCase()));
   const scroll = useScroll(document);
   const top = scroll?.top || 0;
+  const favoritesInfo = useRecoilValue(favoritesSelector);
 
   useEffect(() => {
     setPage(1);
@@ -33,7 +36,10 @@ export const Home = () => {
     <Spin spinning={isInitialLoading}>
       <div className='flex h-full w-full flex-col p-6'>
         {/*title*/}
-        <div className='text-3xl text-blue-600 font-semibold '>TV Information List</div>
+        <div className='flex items-center gap-4'>
+          <div className='text-3xl text-blue-600 font-semibold '>TV Information List</div>
+          <div className='text-sm text-blue-400 font-normal'>{favoritesInfo}</div>
+        </div>
 
         {/*search*/}
         <div className='flex w-full justify-between items-center mt-4'>

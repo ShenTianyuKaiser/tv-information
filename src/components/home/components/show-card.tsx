@@ -3,7 +3,10 @@ import { HeartIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import { useAtom } from "jotai";
-import { favoritesAtom } from "../../../atoms/favorites";
+import { useRecoilState } from "recoil";
+import { favoritesAtom } from "../../../atoms/favorites-jotai";
+import { favoritesAtomRecoil } from "../../../atoms/favorites-recoil";
+import {useAtomCallback} from "jotai/utils";
 
 interface ShowCardProps {
   show: ShowInfo;
@@ -13,7 +16,13 @@ export const ShowCard = (props: ShowCardProps) => {
   const { show } = props;
   const image = show?.image?.medium || '';
   const [favorites, setFavorites] = useAtom(favoritesAtom);
+  const [favoritesRecoil, setFavoritesRecoil] = useRecoilState(favoritesAtomRecoil);
   const isFavorite = favorites.includes(show.id);
+
+  // const alartCallback = useAtomCallback((get, set) => {
+  //   const count = get(favoritesAtom);
+  //   alert(`[Jotai]Favorites updated! Old value is ${JSON.stringify(count)}, new value is ${JSON.stringify([...count, show.id])}`);
+  // });
 
   return (
     <Link to={`showDetails/${show.id}`} >
@@ -24,7 +33,12 @@ export const ShowCard = (props: ShowCardProps) => {
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
+              // alartCallback();
+              console
               setFavorites((favorites)=>{
+                return favorites.includes(show.id) ? favorites.filter((id) => id !== show.id) : [...favorites, show.id];
+              })
+              setFavoritesRecoil((favorites)=>{
                 return favorites.includes(show.id) ? favorites.filter((id) => id !== show.id) : [...favorites, show.id];
               })
               console.log("change favorites counts");
