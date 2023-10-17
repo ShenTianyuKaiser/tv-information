@@ -5,8 +5,10 @@ import { useScroll } from "ahooks";
 import { ShowCard } from "./components/show-card";
 import { ShowInfo } from "../../types";
 import { BackToTopButton } from "../backToTop/back-to-top-button";
-import {useRecoilValue} from "recoil";
-import {favoritesSelector} from "../../atoms/favorites-recoil";
+import { useRecoilValue } from "recoil";
+import { favoritesSelector } from "../../atoms/favorites-recoil";
+import { UsersIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 const PAGE_SIZE = 10;
 
@@ -37,8 +39,12 @@ export const Home = () => {
       <div className='flex h-full w-full flex-col p-6'>
         {/*title*/}
         <div className='flex items-center gap-4'>
+          <Link to='/users'>
+            <UsersIcon className='h-6 w-6 text-blue-500 cursor-pointer' />
+          </Link>
           <div className='text-3xl text-blue-600 font-semibold '>TV Information List</div>
           <div className='text-sm text-blue-400 font-normal'>{favoritesInfo}</div>
+          <Link to='/snapshot'>Snapshot test</Link>
         </div>
 
         {/*search*/}

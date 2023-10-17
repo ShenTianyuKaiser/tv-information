@@ -7,6 +7,7 @@ import { ChevronDoubleLeftIcon } from '@heroicons/react/24/outline';
 import { ShowDetailBasic } from "./components/show-detail-basic";
 import { ShowDetailCastList } from "./components/show-detail-cast-list";
 import { BackToTopButton } from "../backToTop/back-to-top-button";
+import { BackButton } from "../back-button/back-button";
 
 export const ShowDetails = () => {
   const { detailId } = useParams();
@@ -46,17 +47,5 @@ export const ShowDetails = () => {
         <div className='h-full w-full'></div>
       }
     </Spin>
-  );
-}
-
-const BackButton = () => {
-  return (
-    <button
-      className='flex h-[40px] w-[100px] flex-row items-center justify-center gap-[10px] rounded border border-gray-300 px-[15px] py-[6px] text-blue-600'
-      onClick={() => window.history.back()}
-    >
-      <ChevronDoubleLeftIcon className='h-4 w-4' />
-      Back
-    </button>
   );
 }

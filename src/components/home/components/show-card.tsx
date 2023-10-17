@@ -6,7 +6,7 @@ import { useAtom } from "jotai";
 import { useRecoilState } from "recoil";
 import { favoritesAtom } from "../../../atoms/favorites-jotai";
 import { favoritesAtomRecoil } from "../../../atoms/favorites-recoil";
-import {useAtomCallback} from "jotai/utils";
+import { useAtomCallback } from "jotai/utils";
 
 interface ShowCardProps {
   show: ShowInfo;
