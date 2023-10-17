@@ -8,7 +8,8 @@ import { useAtomCallback } from "jotai/utils";
 import { favoritesAtom } from "../../../atoms/favorites-jotai";
 import { favoritesAtomRecoil } from "../../../atoms/favorites-recoil";
 import { useRecoilState } from "recoil";
-import {useFavoritesStore} from "../../../store/favorites-store";
+import { useFavoritesStore } from "../../../store/favorites-store";
+import { message } from "antd";
 
 
 interface ShowDetailBasicProps {
@@ -27,7 +28,7 @@ export const ShowDetailBasic = (props: ShowDetailBasicProps) => {
 
   const alartCallback = useAtomCallback((get, set) => {
     const count = get(favoritesAtom);
-    alert(`[Jotai]Favorites updated! Old value is ${JSON.stringify(count)}`);
+    message.info(`[Jotai]Favorites updated! Old value is ${JSON.stringify(count)}`);
   });
 
   return (

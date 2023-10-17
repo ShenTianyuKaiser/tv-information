@@ -1,4 +1,5 @@
 import { atom, selector } from 'recoil';
+import { message } from "antd";
 
 export const favoritesAtomRecoil = atom<string[]>({
   key: 'favoritesAtom',
@@ -6,7 +7,7 @@ export const favoritesAtomRecoil = atom<string[]>({
   effects: [
     ({onSet})=>{
       onSet((newValue, oldValue)=>{
-        alert(` [Recoil atom effects] \n Favorites updated! \n Old value is ${JSON.stringify(oldValue)}, new value is ${JSON.stringify(newValue)}`);
+        message.info(` [Recoil atom effects] \n Favorites updated! \n Old value is ${JSON.stringify(oldValue)}, new value is ${JSON.stringify(newValue)}`, 5);
         localStorage.setItem('favorites', JSON.stringify(newValue));
       });
     },
