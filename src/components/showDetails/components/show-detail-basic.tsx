@@ -56,7 +56,7 @@ export const ShowDetailBasic = (props: ShowDetailBasicProps) => {
                  addFavorite(show.id);
                }
 
-               alartCallback();
+               // alartCallback();
              }}>
           {isFavorite ? <HeartIconSolid className='h-4 w-4' /> : <HeartIcon className='h-4 w-4' />}
           {show?.rating?.average || 'N/A'}

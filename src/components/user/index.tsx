@@ -74,7 +74,7 @@ export const Users = () => {
         {userList?.filter((user: any) => {
           return user.id !== filter
         }).map((user: any) => (
-          <div className='p-4 w-4/5 border border-blue-300 rounded' key={user.id}>
+          <div className='p-4 w-3/5 border border-blue-300 rounded' key={user.id}>
             <div className='flex justify-between items-center'>
               <p className='flex gap-4'>
                 <span className='text-blue-500'>{user.id}</span>

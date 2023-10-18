@@ -10,4 +10,5 @@ export const useFavoritesStore = create((set) => ({
   favorites: [],
   addFavorite: (id: string) => set((state: FavoritesStore) => ({ favorites: [...state.favorites, id] })),
   removeFavorite: (id: string) => set((state: FavoritesStore) => ({ favorites: state.favorites.filter((item) => item !== id) })),
+  restoreFavorites: () => set(() => ({ favorites: [] })),
 }))

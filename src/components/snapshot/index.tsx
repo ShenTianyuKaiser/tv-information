@@ -11,7 +11,7 @@ import {useEffect, useState} from "react";
 import {BackButton} from "../back-button/back-button";
 
 const countAtom = atom({
-  key: 'count',
+  key: 'countForSnapshot',
   default: 0,
 })
 
@@ -19,7 +19,7 @@ const Observer = () => {
   const snapshot = useRecoilSnapshot();
 
   useEffect(() => {
-    for (const node of snapshot.getNodes_UNSTABLE({ isModified: true })) {
+    for (const node of snapshot.getNodes_UNSTABLE()) {
       console.log(node.key, snapshot.getLoadable(node).contents);
     }
   }, [snapshot]);

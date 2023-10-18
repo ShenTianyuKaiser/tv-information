@@ -7,7 +7,8 @@ import { useRecoilState } from "recoil";
 import { favoritesAtom } from "../../../atoms/favorites-jotai";
 import { favoritesAtomRecoil } from "../../../atoms/favorites-recoil";
 import { useAtomCallback } from "jotai/utils";
-import {FavoritesStore, useFavoritesStore} from "../../../store/favorites-store";
+import { FavoritesStore, useFavoritesStore } from "../../../store/favorites-store";
+import { message } from "antd";
 
 interface ShowCardProps {
   show: ShowInfo;
@@ -23,10 +24,10 @@ export const ShowCard = (props: ShowCardProps) => {
   const removeFavorite = useFavoritesStore((state: any) => state.removeFavorite);
   const isFavorite = favorites.includes(show.id);
 
-  // const alartCallback = useAtomCallback((get, set) => {
-  //   const count = get(favoritesAtom);
-  //   alert(`[Jotai]Favorites updated! Old value is ${JSON.stringify(count)}, new value is ${JSON.stringify([...count, show.id])}`);
-  // });
+  const alartCallback = useAtomCallback((get, set) => {
+    const count = get(favoritesAtom);
+    message.info(`[Jotai]Favorites updated! Current value is ${JSON.stringify(count)}`);
+  });
 
   return (
     <Link to={`showDetails/${show.id}`} >
@@ -37,15 +38,14 @@ export const ShowCard = (props: ShowCardProps) => {
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
-              // alartCallback();
 
               //Jotai
-              setFavorites((favorites)=>{
+              setFavorites((favorites) => {
                 return isFavorite ? favorites.filter((id) => id !== show.id) : [...favorites, show.id];
               })
 
               //Recoil
-              setFavoritesRecoil((favorites)=>{
+              setFavoritesRecoil((favorites) => {
                 return isFavorite ? favorites.filter((id) => id !== show.id) : [...favorites, show.id];
               })
 
@@ -55,7 +55,7 @@ export const ShowCard = (props: ShowCardProps) => {
               } else {
                 addFavorite(show.id);
               }
-
+              // alartCallback();
               console.log("change favorites counts");
             }}>
             {isFavorite ? <HeartIconSolid className='h-4 w-4' /> : <HeartIcon className='h-4 w-4' />}

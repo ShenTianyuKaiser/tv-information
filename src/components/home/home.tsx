@@ -5,7 +5,7 @@ import { useScroll } from "ahooks";
 import { ShowCard } from "./components/show-card";
 import { ShowInfo } from "../../types";
 import { BackToTopButton } from "../backToTop/back-to-top-button";
-import { useRecoilValue } from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import { favoritesSelector } from "../../atoms/favorites-recoil";
 import { UsersIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
@@ -19,7 +19,7 @@ export const Home = () => {
   const showList = (data?.data || []).filter((item: any) => (item?.name).toLowerCase().includes(query.toLowerCase()));
   const scroll = useScroll(document);
   const top = scroll?.top || 0;
-  const favoritesInfo = useRecoilValue(favoritesSelector);
+  const [favorites, setFavorites] = useRecoilState(favoritesSelector);
 
   useEffect(() => {
     setPage(1);
@@ -43,7 +43,10 @@ export const Home = () => {
             <UsersIcon className='h-6 w-6 text-blue-500 cursor-pointer' />
           </Link>
           <div className='text-3xl text-blue-600 font-semibold '>TV Information List</div>
-          <div className='text-sm text-blue-400 font-normal'>{favoritesInfo}</div>
+          <div className='text-sm text-blue-400 font-normal'
+               onClick={() => {
+                 setFavorites("1");
+               }}>{favorites}</div>
           <Link to='/snapshot'>Snapshot test</Link>
         </div>
 
